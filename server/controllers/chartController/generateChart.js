@@ -7,7 +7,9 @@ export default async (req, res) => {
         // Clear existing chart data
         await connection.deleteMany({})
         // Generate the chart
-        let documents = makeChart(req.body)
+        let goalInfoMap = body["goalInfoMap"]
+        let maxTime = body["maxTime"]
+        let documents = makeChart(goalInfoMap, maxTime)
         // Save this to the database
         let result = await connection.insertMany(documents)
         res.send(result).status(204)

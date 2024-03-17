@@ -1,4 +1,4 @@
-export default function makeChart(body) {
+export default function makeChart(goalInfoMap, maxTime) {
     let d1 = new Date()
     let d2 = new Date()
     d2.setDate(d2.getDate() + 5)
