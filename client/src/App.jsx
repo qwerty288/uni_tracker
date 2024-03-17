@@ -24,7 +24,7 @@ import axios from 'axios'
 
 import utc from 'dayjs/plugin/utc'
 
-dayjs.extend(utc)
+dayjs.extend(utc) 
 
 function App() {
 
@@ -34,7 +34,13 @@ function App() {
 
   const [goal, setGoal] = useState("")
 
-  const [goalInfoMap, setGoalInfoMap] = useState({})
+  const [goalInfoMap, setGoalInfoMap] = useState(
+    {
+      existingGoalList: [ 'Goal 0' ],
+      goalInfoMap: { 'Goal 0': [ [], '10', '2024-03-20T00:00:00.000Z' ] },
+      maxTime: '8'
+    }
+  )
 
   const [selectedDependentGoals, setSelectedDependentGoals] = useState([])
 
@@ -90,16 +96,24 @@ function App() {
     await axios.get('http://localhost:5050/chart/chart_data').then((res) => {
       console.log(res.data)
       setChartData(res.data)
-    });
+    })
   }
 
-  function submitAllData() {
+  async function submitAllData() {
+    const params = {
+      existingGoalList,
+      goalInfoMap,
+      maxTime
+    }
 
+    await axios.post('http://localhost:5050/chart/generate_chart/', params).then((res) => {
+
+    })
   }
 
   useEffect(() => {
-    getChartData();
-  }, 1);
+    getChartData()
+  }, 1)
 
   let d1 = new Date()
   let d2 = new Date()
