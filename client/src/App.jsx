@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import { FrappeGantt } from "frappe-gantt-react"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import dayjs from 'dayjs'
@@ -20,6 +20,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
+import axios from 'axios'
 
 import utc from 'dayjs/plugin/utc'
 
@@ -40,6 +41,14 @@ function App() {
   const [maxTime, setMaxTime] = useState("8")
 
   const [goalDeadline, setGoalDeadline] = useState(dayjs.utc(''))
+
+  const [chartData, setChartData] = useState(
+    [
+      {
+
+      }
+    ]
+  );
 
   const goalListItems = existingGoalList.map((goal) => (
     <MenuItem
@@ -77,9 +86,20 @@ function App() {
     setGoalDeadline(dayjs.utc(''))
   }
 
+  async function getChartData() {
+    await axios.get('http://localhost:5050/chart/chart_data').then((res) => {
+      console.log(res.data)
+      setChartData(res.data)
+    });
+  }
+
   function submitAllData() {
 
   }
+
+  useEffect(() => {
+    getChartData();
+  }, 1);
 
   let d1 = new Date()
   let d2 = new Date()
@@ -121,7 +141,7 @@ function App() {
       <Navbar />
       <Outlet />
       <FrappeGantt
-        tasks={tasks}
+        tasks={chartData}
         viewMode={"Month"}
         onClick={task => console.log(task, "click")}
         onDateChange={(task, start, end) =>
