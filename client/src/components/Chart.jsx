@@ -14,7 +14,6 @@ function Chart() {
 
     async function getChartData() {
         await axios.get('http://localhost:5050/chart/chart_data').then((res) => {
-            console.log(res.data)
             setChartData(res.data)
         })
     }
@@ -27,7 +26,7 @@ function Chart() {
         <div className="w-full p-6">
             <FrappeGantt
                 tasks={chartData}
-                viewMode={"Month"}
+                viewMode={"Day"}
                 onClick={task => console.log(task, "click")}
                 onDateChange={(task, start, end) =>
                     console.log(task, start, end, "date")

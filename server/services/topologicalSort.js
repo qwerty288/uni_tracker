@@ -1,11 +1,10 @@
-export default function topologicalSort(adjacencyList) {
+export default function topologicalSort(adjacencyList, nodeSet) {
     let stack = []
-    let visited = new Array(adjacencyList.length).fill(false)
+    let visited = new Array(nodeSet.size).fill(false)
 
     // DFS helper function
     function dfs(node) {
         visited[node] = true
-        console.log(node)
         for (const neighbor of adjacencyList[node]) {
             if (!visited[neighbor]) {
                 dfs(neighbor)
@@ -16,7 +15,7 @@ export default function topologicalSort(adjacencyList) {
     }
 
     // DFS on every node
-    for (const node in adjacencyList) {
+    for (const node of nodeSet) {
         if (!visited[node]) {
             dfs(node) 
         }
