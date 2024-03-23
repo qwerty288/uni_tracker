@@ -64,6 +64,8 @@ export default function makeChart(goalInfoMap, maxTime, startDate) {
             }
         )
         startDate = new Date(endDate.valueOf())
+        // Increase by 1 to avoid intersecting goals
+        startDate.setDate(startDate.getDate() + 1)
         endDate = new Date(startDate.valueOf())
         i++
     }
